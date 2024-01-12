@@ -2,14 +2,14 @@
 
 """This module using python type annotation to add values"""
 
-from typing import Any, Union, TypeVar, Mapping, Optional
+from typing import Any, Union, TypeVar, Mapping
 
-K = TypeVar('K')
+T = TypeVar('T')
 
 
 def safely_get_value(dct: Mapping,
                      key: Any,
-                     default: Union[K, None] = None) -> Union[Any, K]:
+                     default: Union[T, None] = None) -> Union[Any, T]:
     if key in dct:
         return dct[key]
     else:
