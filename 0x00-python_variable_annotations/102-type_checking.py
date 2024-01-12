@@ -2,10 +2,11 @@
 
 """This module using python type annotation to add values"""
 
-from typing import Tuple, TypeVar, List, Any, cast
+from typing import Tuple, cast, List
 
 
 def zoom_array(lst: Tuple, factor: int = 2) -> List:
+    """Practice how to use cast and annotation"""
     zoomed_in: List = [
         item for item in lst
         for i in range(factor)
