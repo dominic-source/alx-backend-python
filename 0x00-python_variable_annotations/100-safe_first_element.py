@@ -2,11 +2,10 @@
 
 """This module using python type annotation to add values"""
 
-from types import NoneType
 from typing import Any, Sequence, Union
 
 
-def safe_first_element(lst: Sequence[Any]) -> Union[NoneType, Sequence]:
+def safe_first_element(lst: Sequence[Any]) -> Union[None, Any]:
     """Dock type annotation implementation"""
     if lst:
         return lst[0]
