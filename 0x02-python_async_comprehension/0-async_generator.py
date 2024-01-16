@@ -1,6 +1,7 @@
-#!/user/bin/env python3
+#!/usr/bin/env python3
 
 """This module houses a coroutine that behaves like a generator
+
 """
 
 import random
