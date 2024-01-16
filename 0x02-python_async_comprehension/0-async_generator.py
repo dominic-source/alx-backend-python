@@ -9,7 +9,7 @@ from typing import Generator
 
 
 async def async_generator() -> Generator[float, None, None]:
-    """ A generator function """
+    """ A generator function that return a random float value"""
 
     for _ in range(10):
         await asyncio.sleep(1)
