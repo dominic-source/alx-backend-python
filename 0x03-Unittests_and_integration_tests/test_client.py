@@ -48,3 +48,12 @@ class TestGithubOrgClient(unittest.TestCase):
 
         mock_met.assert_called_once()
         mock_method.assert_called_once()
+
+    @parameterized.expand([({"license": {"key": "my_license"}},
+                            "my_license", True),
+                           ({"license": {"key": "other_license"}},
+                            "my_license", False)])
+    def test_has_license(self, data, license, result):
+        """Test that license is true or false"""
+        production = GithubOrgClient.has_license(data, license)
+        self.assertEqual(production, result)
