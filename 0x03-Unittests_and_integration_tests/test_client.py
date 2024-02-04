@@ -57,3 +57,19 @@ class TestGithubOrgClient(unittest.TestCase):
         """Test that license is true or false"""
         production = GithubOrgClient.has_license(data, license)
         self.assertEqual(production, result)
+
+
+@parameterized_class((), [])
+class TestIntegrationGithubOrgClient(unittest.TestCase):
+    """PERFORM INTEGRATION TESTING"""
+
+    @patch()
+    def setUpClasss(self):
+        """The setup method for our integration testing"""
+        self.mock_request = MagicMock()
+        self.mock_request.requests.get.return_value = TEST_PAYLOAD[0][1]
+
+    def tearDownClass(self):
+        """The tear down method for our integration testing"""
+
+        pass
