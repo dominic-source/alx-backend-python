@@ -80,6 +80,8 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
                     mock_json.json.return_value = data[1]
                     return mock_json
 
+        mock_get = MagicMock()
+        mock_get.get.return_value = TEST_PAYLOAD
         cls.get_patcher = patch('utils.requests.get', side_effect=side_effect)
 
         cls.mock_req = cls.get_patcher.start()
