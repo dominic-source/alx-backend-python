@@ -85,6 +85,9 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
                 elif url.endswith("/repos") and url == data[0]["repos_url"]:
                     mock_json.json.return_value = data[1]
                     return mock_json
+            if url.endswith("orgs/"):
+                mock_json.json.return_value = {"repos_url": ""}
+                return mock_json
 
         cls.get_patcher = patch('utils.requests.get', side_effect=side_effect)
 
