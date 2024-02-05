@@ -99,9 +99,17 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
 
         cls.get_patcher.stop()
 
-    # def test_public_repos(self):
-    #     """Test public repos"""
+    def test_public_repos(self):
+        """Test public repos"""
 
-    #     url_2 = self.repos_payload[0]["owner"]["login"]
-    #     p_rep = GithubOrgClient(url_2)
-    #     self.assertEqual(p_rep.public_repos(), self.expected_repos)
+        url_2 = self.repos_payload[0]["owner"]["login"]
+        p_rep = GithubOrgClient(url_2)
+        self.assertEqual(p_rep.public_repos(), self.expected_repos)
+
+    def test_public_repos_with_license(self):
+        """Test public repos with licence"""
+
+        url_2 = self.repos_payload[0]["owner"]["login"]
+        p_rep = GithubOrgClient(url_2)
+        self.assertEqual(p_rep.public_repos(license="apache-2.0"),
+                         self.apache2_repos)
