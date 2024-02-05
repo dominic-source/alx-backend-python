@@ -78,7 +78,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
                 if url.endswith(cls.repos_payload[0]["owner"]["login"]):
                     mock_json.json.return_value = data[0]
                     return mock_json
-                elif url.endswith("/repos"):
+                elif url.endswith("/repos") and url == data[0]["repos_url"]:
                     mock_json.json.return_value = data[1]
                     return mock_json
 
