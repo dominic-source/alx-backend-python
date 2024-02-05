@@ -59,17 +59,40 @@ class TestGithubOrgClient(unittest.TestCase):
         self.assertEqual(production, result)
 
 
-@parameterized_class((), [])
+@parameterized_class(("org_payload", "repos_payload",
+                      "expected_repos", "apache2_repos"), TEST_PAYLOAD)
 class TestIntegrationGithubOrgClient(unittest.TestCase):
     """PERFORM INTEGRATION TESTING"""
 
-    @patch()
-    def setUpClasss(self):
+    @classmethod
+    def setUpClass(cls):
         """The setup method for our integration testing"""
-        self.mock_request = MagicMock()
-        self.mock_request.requests.get.return_value = TEST_PAYLOAD[0][1]
 
-    def tearDownClass(self):
+        def side_effect(url):
+            """Use the url to get information"""
+
+            mock_json = MagicMock()
+            for data in TEST_PAYLOAD:
+                if url.endswith(cls.repos_payload[0]["owner"]["login"]):
+                    mock_json.json.return_value = data[0]
+                    return mock_json
+                elif url.endswith("/repos"):
+                    mock_json.json.return_value = data[1]
+                    return mock_json
+
+        cls.get_patcher = patch('utils.requests.get', side_effect=side_effect)
+
+        cls.mock_req = cls.get_patcher.start()
+
+    @classmethod
+    def tearDownClass(cls):
         """The tear down method for our integration testing"""
 
-        pass
+        cls.get_patcher.stop()
+
+    def test_public_repos(self):
+        """Test public repos"""
+
+        url_2 = self.repos_payload[0]["owner"]["login"]
+        p_rep = GithubOrgClient(url_2)
+        self.assertEqual(p_rep.public_repos(), self.expected_repos)
