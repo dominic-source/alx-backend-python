@@ -75,7 +75,11 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             mock_get = Mock()
             mock_get.get.return_value = TEST_PAYLOAD
             for data in mock_get.get():
-                if url.endswith(cls.repos_payload[0]["owner"]["login"]):
+                if url.endswith(
+                    cls.repos_payload[0]["owner"]["login"]
+                                ) and url.startswith(
+                                    "https://api.github.com/orgs/"):
+
                     mock_json.json.return_value = data[0]
                     return mock_json
                 elif url.endswith("/repos") and url == data[0]["repos_url"]:
