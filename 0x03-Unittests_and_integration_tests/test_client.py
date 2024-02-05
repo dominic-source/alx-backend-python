@@ -72,7 +72,9 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             """Use the url to get information"""
 
             mock_json = MagicMock()
-            for data in TEST_PAYLOAD:
+            mock_get = Mock()
+            mock_get.get.return_value = TEST_PAYLOAD
+            for data in mock_get.get():
                 if url.endswith(cls.repos_payload[0]["owner"]["login"]):
                     mock_json.json.return_value = data[0]
                     return mock_json
@@ -80,8 +82,6 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
                     mock_json.json.return_value = data[1]
                     return mock_json
 
-        mock_get = MagicMock()
-        mock_get.get.return_value = TEST_PAYLOAD
         cls.get_patcher = patch('utils.requests.get', side_effect=side_effect)
 
         cls.mock_req = cls.get_patcher.start()
