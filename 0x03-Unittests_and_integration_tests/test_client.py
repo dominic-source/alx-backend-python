@@ -9,6 +9,7 @@ from unittest.mock import patch, Mock, MagicMock, PropertyMock
 from parameterized import parameterized, parameterized_class
 from client import GithubOrgClient
 from fixtures import TEST_PAYLOAD
+import requests
 
 
 class TestGithubOrgClient(unittest.TestCase):
@@ -65,7 +66,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     """PERFORM INTEGRATION TESTING"""
 
     @classmethod
-    def setUpClass(self):
+    def setUpClass(cls):
         """The setup method for our integration testing"""
 
         def side_effect(url):
@@ -76,7 +77,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             mock_get.get.return_value = TEST_PAYLOAD
             for data in mock_get.get():
                 if url.endswith(
-                    self.repos_payload[0]["owner"]["login"]
+                    cls.repos_payload[0]["owner"]["login"]
                                 ) and url.startswith(
                                     "https://api.github.com/orgs/"):
 
@@ -88,9 +89,9 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             mock_json.json.return_value = {"repos_url": ""}
             return mock_json
 
-        self.get_patcher = patch('utils.requests.get', side_effect=side_effect)
+        cls.get_patcher = patch('requests.get', side_effect=side_effect)
 
-        self.mock_req = self.get_patcher.start()
+        cls.mock_req = cls.get_patcher.start()
 
     @classmethod
     def tearDownClass(cls):
