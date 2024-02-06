@@ -65,7 +65,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
     """PERFORM INTEGRATION TESTING"""
 
     @classmethod
-    def setUpClass(cls):
+    def setUpClass(self):
         """The setup method for our integration testing"""
 
         def side_effect(url):
@@ -76,7 +76,7 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             mock_get.get.return_value = TEST_PAYLOAD
             for data in mock_get.get():
                 if url.endswith(
-                    cls.repos_payload[0]["owner"]["login"]
+                    self.repos_payload[0]["owner"]["login"]
                                 ) and url.startswith(
                                     "https://api.github.com/orgs/"):
 
@@ -88,9 +88,9 @@ class TestIntegrationGithubOrgClient(unittest.TestCase):
             mock_json.json.return_value = {"repos_url": ""}
             return mock_json
 
-        cls.get_patcher = patch('utils.requests.get', side_effect=side_effect)
+        self.get_patcher = patch('utils.requests.get', side_effect=side_effect)
 
-        cls.mock_req = cls.get_patcher.start()
+        self.mock_req = self.get_patcher.start()
 
     @classmethod
     def tearDownClass(cls):
